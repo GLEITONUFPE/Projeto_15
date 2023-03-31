@@ -75,16 +75,29 @@ while not rospy.is_shutdown():
 
 state = 0
 # rospy.spin()
+
 # while(...):
+
 # if state == 0:
+
 # decision
+
 # compute next state
+
 # else if state == 1
+
 # image porcessing
+
 # compute next state
+
 # else if state == 3
+
 # move straight
+
 # compute next state
+
 # else if state == 4
+
 # turn
+
 # compute next state
