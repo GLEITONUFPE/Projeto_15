@@ -8,14 +8,19 @@ from trajectory_msgs.msg import JointTrajectory
 from tf.transformations import euler_from_quaternion
 from math import pi
 
+minimum_dist = 1.5
+
 class myRobot():
 
     def __init__(self):
         #print('init')
+        self.rate = rospy.Rate(10)
         self.cmd_vel_twist = Twist()
         self.tiago_odom = Odometry()
         self.theta_z = 0.0
         self.mid_dist = 0.0
+        self.left_dist = 0.0
+        self.right_dist = 0.0
         # Subscriber odometria
         self.odom_sub = rospy.Subscriber('/mobile_base_controller/odom', Odometry, self.callback_odometria)
         # Subscriber laser
@@ -26,7 +31,7 @@ class myRobot():
         # Publisher cabeca
         self.head_pub = rospy.Publisher('/head_controller/command', JointTrajectory)
 
-        while self.theta_z == 0.0:
+        while self.theta_z == 0.0 or self.mid_dist == 0.0 or self.left_dist == 0.0 or self.right_dist == 0.0:
             pass
 
     def callback_odometria(self, msg):
@@ -40,19 +45,35 @@ class myRobot():
         #print('callback laser')
         #print(len(msg.ranges)) #retornou 666
         # movimentacao não pode estar em um callback, porque ele é executado o tempo todo
-        #pegar os indices 333 (frente), 50 (direita) e 600 (esquerda)
+        #pegar os indices 333 (frente), 22 (direita) e 643 (esquerda)
         self.mid_dist = msg.ranges[333]
+        self.left_dist = msg.ranges[643]
+        self.right_dist = msg.ranges[22]
+            
 
 
         # Armazenar os dados do laser
 
     def moveStraight(self):
         #print('move straight')
-        if self.mid_dist < 1.00:
-            self.cmd_vel_twist.linear.x = 0
-        else:
-            self.cmd_vel_twist.linear.x = self.mid_dist * 0.25
-        self.base_pub.publish(self.cmd_vel_twist)
+        while (self.mid_dist > minimum_dist):
+            #self.cmd_vel_twist.linear.x = self.mid_dist * 0.25
+            self.cmd_vel_twist.linear.x = 1
+            self.base_pub.publish(self.cmd_vel_twist)
+        self.cmd_vel_twist.linear.x = 0
+        d = self.mid_dist
+        while (abs(d - self.mid_dist) > 0.05):
+            d = self.mid_dist
+
+        
+
+
+
+        # if self.mid_dist < 1.00:
+        #     self.cmd_vel_twist.linear.x = 0
+        # else:
+        #     self.cmd_vel_twist.linear.x = self.mid_dist * 0.25
+        # self.base_pub.publish(self.cmd_vel_twist)
 
         # error = ...
         # while(abs(error) < value):
@@ -77,18 +98,32 @@ class myRobot():
 
     def decision(self):
         print('decision')
-        #
+        if self.mid_dist > minimum_dist:
+            self.moveStraight()
+            return
+        if self.left_dist > minimum_dist and self.right_dist < minimum_dist:
+            self.turn_left()
+            return
+        if self.left_dist < minimum_dist and self.right_dist > minimum_dist:
+            self.turn_right()
+            return
+        if self.left_dist < minimum_dist and self.right_dist < minimum_dist:
+            self.moveStraight()
+            return
+        if self.left_dist > minimum_dist and self.right_dist > minimum_dist:
+            self.turn_left()
+            return
 
 if __name__ == '__main__':
 
     rospy.init_node('project_tiago')
     
-    rate = rospy.Rate(5)
     tiago = myRobot()
-    rate.sleep()
-    #while not rospy.is_shutdown():
-        #tiago.moveStraight()
-    tiago.turn_right()
+
+    while not rospy.is_shutdown():
+        tiago.decision()
+        tiago.rate.sleep()
+    #tiago.turn_right()
 
 
     state = 0
