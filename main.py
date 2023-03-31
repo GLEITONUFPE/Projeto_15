@@ -7,9 +7,13 @@ class myRobot():
     def __init__(self):
         print('init')
         # Subscriber odometria
+
         # Subscriber laser
+
         # Client Service camera
+
         # Publisher base
+        
         # Publisher cabeca
 
     def callback_odometria(self, msg):
