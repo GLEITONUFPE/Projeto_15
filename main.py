@@ -4,7 +4,7 @@ import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
-from trajectory_msgs.msg import JointTrajectory
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from tf.transformations import euler_from_quaternion
 from math import pi
 
@@ -29,7 +29,7 @@ class myRobot():
         # Publisher base
         self.base_pub = rospy.Publisher('/mobile_base_controller/cmd_vel', Twist, queue_size=1)
         # Publisher cabeca
-        self.head_pub = rospy.Publisher('/head_controller/command', JointTrajectory)
+        self.head_pub = rospy.Publisher('/head_controller/command', JointTrajectory, queue_size=1)
 
         while self.theta_z == 0.0 or self.mid_dist == 0.0 or self.left_dist == 0.0 or self.right_dist == 0.0:
             pass
@@ -49,10 +49,27 @@ class myRobot():
         self.mid_dist = msg.ranges[333]
         self.left_dist = msg.ranges[643]
         self.right_dist = msg.ranges[22]
-            
-
-
-        # Armazenar os dados do laser
+    
+    def moveHead(self):
+        self.head_trajectory = JointTrajectory()
+        self.head_trajectory.joint_names = ["head_1_joint", "head_2_joint"]
+        self.head_trajectory.points = [JointTrajectoryPoint()]
+        self.head_trajectory.points[0].positions = [0, 0]
+        self.head_trajectory.points[0].time_from_start = rospy.Duration(0.1)
+        self.head_pub.publish(self.head_trajectory)
+        rospy.sleep(0.1)
+        self.head_trajectory.points[0].positions = [pi / 2, 0]
+        self.head_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+        self.head_pub.publish(self.head_trajectory)
+        rospy.sleep(3)
+        self.head_trajectory.points[0].positions = [-pi / 2, 0]
+        self.head_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+        self.head_pub.publish(self.head_trajectory)
+        rospy.sleep(3)
+        self.head_trajectory.points[0].positions = [0, 0]
+        self.head_trajectory.points[0].time_from_start = rospy.Duration(3.0)
+        self.head_pub.publish(self.head_trajectory)
+        rospy.sleep(3)
 
     def moveStraight(self):
         #print('move straight')
@@ -111,6 +128,7 @@ class myRobot():
             self.moveStraight()
             return
         if self.left_dist > minimum_dist and self.right_dist > minimum_dist:
+            self.moveHead()
             self.turn_left()
             return
 
@@ -124,6 +142,7 @@ if __name__ == '__main__':
         tiago.decision()
         tiago.rate.sleep()
     #tiago.turn_right()
+    # tiago.moveHead()
 
 
     state = 0
