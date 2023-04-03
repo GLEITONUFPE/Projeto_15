@@ -120,6 +120,7 @@ class myRobot():
         while abs(desired_theta - self.theta_z) > 0.01:
             self.cmd_vel_twist.angular.z = 2 * abs(desired_theta - self.theta_z) #gira pra esquerda; pra direita, -0.1
             self.base_pub.publish(self.cmd_vel_twist)
+        rospy.sleep(3)
 
     def turn_right(self):
         print('turn right')
@@ -129,6 +130,7 @@ class myRobot():
         while abs(desired_theta - self.theta_z) > 0.01:
             self.cmd_vel_twist.angular.z = -2 * abs(desired_theta - self.theta_z) #gira pra direita
             self.base_pub.publish(self.cmd_vel_twist)
+        rospy.sleep(3)
         # error = ...
         # while(abs(error) < value):
 
