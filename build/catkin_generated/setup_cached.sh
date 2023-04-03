@@ -7,7 +7,8 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/glv2/dupla15/devel:$CMAKE_PREFIX_PATH"
-export PWD='/home/glv2/dupla15/build'
-export ROSLISP_PACKAGE_DIRECTORIES='/home/glv2/dupla15/devel/share/common-lisp'
-export ROS_PACKAGE_PATH="/home/glv2/dupla15/src:$ROS_PACKAGE_PATH"
+export CMAKE_PREFIX_PATH="/home/mfmgl/projeto_15_ws/devel:$CMAKE_PREFIX_PATH"
+export LD_LIBRARY_PATH="/home/mfmgl/projeto_15_ws/devel/lib:$LD_LIBRARY_PATH"
+export PWD='/home/mfmgl/projeto_15_ws/build'
+export ROSLISP_PACKAGE_DIRECTORIES='/home/mfmgl/projeto_15_ws/devel/share/common-lisp'
+export ROS_PACKAGE_PATH="/home/mfmgl/projeto_15_ws/src:$ROS_PACKAGE_PATH"

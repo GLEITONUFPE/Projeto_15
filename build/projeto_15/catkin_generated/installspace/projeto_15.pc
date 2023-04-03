@@ -1,8 +1,8 @@
-prefix=/home/glv2/dupla15/install
+prefix=/home/mfmgl/projeto_15_ws/install
 
 Name: projeto_15
 Description: Description of projeto_15
 Version: 0.0.0
-Cflags: 
+Cflags: -I${prefix}/include
 Libs: -L${prefix}/lib 
 Requires: 

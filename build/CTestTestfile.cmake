@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: /home/glv2/dupla15/src
-# Build directory: /home/glv2/dupla15/build
+# Source directory: /home/mfmgl/projeto_15_ws/src
+# Build directory: /home/mfmgl/projeto_15_ws/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

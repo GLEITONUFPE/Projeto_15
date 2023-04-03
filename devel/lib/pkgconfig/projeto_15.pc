@@ -1,8 +1,8 @@
-prefix=/home/glv2/dupla15/devel
+prefix=/home/mfmgl/projeto_15_ws/devel
 
 Name: projeto_15
 Description: Description of projeto_15
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/mfmgl/projeto_15_ws/devel/include
 Libs: -L${prefix}/lib 
 Requires: 

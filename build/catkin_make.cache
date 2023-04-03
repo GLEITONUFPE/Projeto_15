@@ -1,2 +1,2 @@
 projeto_15
--DCATKIN_DEVEL_PREFIX=/home/glv2/dupla15/devel -DCMAKE_INSTALL_PREFIX=/home/glv2/dupla15/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/mfmgl/projeto_15_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mfmgl/projeto_15_ws/install -G Unix Makefiles
