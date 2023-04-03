@@ -1,0 +1,8 @@
+prefix=/home/glv2/dupla15/devel
+
+Name: projeto_15
+Description: Description of projeto_15
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
